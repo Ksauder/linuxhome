@@ -1,0 +1,12 @@
+[user]
+	email = ksauder.dev@gmail.com
+	name = kyle
+[fetch]
+	writeCommitGraph = true
+[alias]
+	staash = stash --all
+	blaame = blame -w -C -C -C -L
+[rerere]
+	enabled = true
+[include]
+	path = /home/kyle/.main.gitconfig
