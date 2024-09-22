@@ -3,7 +3,7 @@
 chmod +x ./scripts/*
 
 # init any submodules and run any machine setup scripts
-# scripts/install_from_submodules.sh
+scripts/install_from_submodules.sh
 
 # for file in repo, symlink to ~/
 echo "Linking dotfiles"
@@ -20,4 +20,5 @@ echo "Linking config dirs"
 mkdir -p "$HOME/.config"
 for d in $(find ./config -maxdepth 1 -mindepth 1 -type d); do
     echo "- $HOME/.config/$(basename $d) -> $(realpath $d)"
+    ln -s "$(realpath $d)" "$HOME/.config/$(basename $d)"
 done

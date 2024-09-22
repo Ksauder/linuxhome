@@ -1,6 +1,6 @@
 #!/bin/sh
 
-
+git submodule update --init --recursive
 
 echo "Installing OMZ"
 ln -s ../.oh-my-zsh ~/.oh-my-zsh
@@ -12,4 +12,3 @@ echo "Installing tmux config"
 ln -s ../.tmux/.tmux.conf ~/.tmux.conf
 ln -s ../.tmux/.tmux.conf.local ~/.tmux.conf.local
 echo "tmux config installed"
-
