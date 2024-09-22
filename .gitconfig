@@ -1,12 +1,38 @@
-[user]
-	email = ksauder.dev@gmail.com
-	name = kyle
-[fetch]
-	writeCommitGraph = true
 [alias]
-	staash = stash --all
-	blaame = blame -w -C -C -C -L
-[rerere]
-	enabled = true
-[include]
-	path = /home/kyle/.main.gitconfig
+	co = checkout
+	ci = commit
+	di = diff
+	st = status
+	br = branch
+	clonewmods = clone --recurse-submodules -j8
+	submodupdate = submodule update --init --recursive
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[core]
+	autocrlf = input
+	attributesfile = ~/.gitattributes
+	excludesfile = ~/.gitignore
+	pager = delta 2> /dev/null || less
+[apply]
+	whitespace = nowarn
+[format]
+	pretty = %C(auto)%h%Creset -%C(auto)%d%Creset %s %C(blue)<%an> %Cgreen(%cr)%Creset
+[push]
+	default = current
+[pager]
+	# Disable paging for `git branch`.
+	branch = false
+[delta]
+	syntax-theme = Solarized (dark)
+	line-numbers = true
+	side-by-side = true
+[interactive]
+	diffFilter = delta --color-only
+[merge]
+  conflictstyle = diff3
+[commit]
+  verbose = true
+[diff]
+  algorithm = histogram
