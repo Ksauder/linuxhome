@@ -10,6 +10,7 @@ alias test_tls_cert="openssl s_client -connect"
 alias tf="terraform"
 alias k="kubectl"
 alias tmux-start="tmux new -As0"
+alias ts="tmux-start"
 function get_tls_cert()
 {
     </dev/null openssl s_client -connect $HOST:$PORTNUMBER -servername $SERVERNAME \
