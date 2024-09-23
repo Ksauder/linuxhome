@@ -22,3 +22,4 @@ for d in $(find ./config -maxdepth 1 -mindepth 1 -type d); do
     echo "- $HOME/.config/$(basename $d) -> $(realpath $d)"
     ln -s "$(realpath $d)" "$HOME/.config/$(basename $d)"
 done
+echo "Done linking config dirs"
