@@ -5,7 +5,14 @@
 	st = status
 	br = branch
 	clonewmods = clone --recurse-submodules -j8
-	submodupdate = submodule update --init --recursive
+	subup = submodule update --init --recursive
+  staash = stash --all
+  blaame = blame -w -C -C -C -L
+  wdiff = diff --word-diff
+  rdiff = diff --submodule=diff
+  discard = !git checkout -- . && git submodule foreach git checkout -- .
+[fetch]
+  writeCommitGraph = true
 [color]
 	diff = auto
 	status = auto
@@ -36,3 +43,9 @@
   verbose = true
 [diff]
   algorithm = histogram
+[rerere]
+  enabled = true
+
+[user]
+	email = ksauder.dev@gmail.com
+	name = ksauder
