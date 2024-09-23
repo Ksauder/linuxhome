@@ -1,9 +1,14 @@
 " This is a minimal Vim config that's geared to be useful on new machines.
 " All new configs will go into Neovim.
 
-" old vimrc stuff ---
 set tabstop=4
-set softtabstop=4
+" length to use when shifting text (eg. <<, >> and == commands)
+" (0 for ‘tabstop’):
+set shiftwidth=0
+" length to use when editing text (eg. TAB and BS keys)
+" (0 for ‘tabstop’, -1 for ‘shiftwidth’):
+set softtabstop=0
+" expand all tabs to spaces
 set expandtab
 set autoindent
 set number
@@ -14,6 +19,9 @@ set pastetoggle=<F3>
 set hlsearch
 set noerrorbells
 set history=1000
+
+" filetype settings
+autocmd FileType sh setlocal tabstop=4 shiftwidth=4
 
 " Maps the F5 key to trim all white space
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
