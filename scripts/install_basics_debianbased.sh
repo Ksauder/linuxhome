@@ -13,6 +13,7 @@ apt install -y \
     libncurses5
 echo "APT - install tools"
 apt install -y \
+    git \
     curl \
     wget \
     htop \
@@ -23,7 +24,9 @@ apt install -y \
     neovim
 
 curl https://pyenv.run | bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+
+git clone https://github.com/nvm-sh/nvm.git ~/.nvm
+pushd ~/.nvm && git checkout v0.40.1 && popd 
 
 python3 -m pip install --user pipx
 python3 -m pipx ensurepath
