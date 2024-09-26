@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPTDIR=$(dirname "$(realpath "$0")")
 
 chmod +x ./scripts/*
 

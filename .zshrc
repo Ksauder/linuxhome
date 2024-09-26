@@ -242,3 +242,4 @@ if [ -f ~/.commonrc ]; then
     source ~/.commonrc
 fi
 
+export PATH="$PATH:/opt/nvim-linux64/bin"

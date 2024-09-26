@@ -116,3 +116,5 @@ if [ -f ~/.commonrc ]; then
     . ~/.commonrc
 fi
 
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
