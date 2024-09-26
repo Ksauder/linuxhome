@@ -7,12 +7,13 @@ scripts/install_from_submodules.sh
 
 # for file in repo, symlink to ~/
 echo "Linking dotfiles"
+mkdir -p "$HOME/.dotfilebackups"
 for file in $(find . -maxdepth 1 -type f); do
     filename=$(basename "$file")
     if [ "${filename:0:1}" = "." ] && [ "${filename}" != ".gitmodules" ]; then
         echo "- ${HOME}/${filename} -> ${filename}"
-        if [ -f "${HOME}/${filename}" ]; then
-            mv "$HOME/$filename" "$HOME/${filename}.$(date +%s).bak"
+        if [ -f "${HOME}/${filename}" ] && [ ! -L "${HOME}/${filename}" ]; then
+            mv "$HOME/$filename" "$HOME/.dotfilebackups/${filename}.orig.bak"
         fi
         ln -s "$(realpath $file)" "$HOME/$filename"
     fi
