@@ -10,7 +10,10 @@ echo "Linking dotfiles"
 for file in $(find . -maxdepth 1 -type f); do
     filename=$(basename "$file")
     if [ "${filename:0:1}" = "." ] && [ "${filename}" != ".gitmodules" ]; then
-        echo "- $HOME/$filename -> ${filename}"
+        echo "- ${HOME}/${filename} -> ${filename}"
+        if [ -f "${HOME}/${filename}" ]; then
+            mv "$HOME/$filename" "$HOME/${filename}.$(date +%s).bak"
+        fi
         ln -s "$(realpath $file)" "$HOME/$filename"
     fi
 done
