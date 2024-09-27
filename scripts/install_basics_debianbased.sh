@@ -21,7 +21,8 @@ sudo apt --ignore-missing install -y \
     libpcap-dev \
     libncurses5 \
     ca-certificates \
-    curl
+    curl \
+    fonts-font-awesome
 
 echo "APT - install python3 build deps"
 # https://devguide.python.org/getting-started/setup-building/index.html#install-dependencies
@@ -54,12 +55,14 @@ sudo apt --ignore-missing install -y \
     nmap \
     make \
     iftop \
-    nethogs
+    nethogs \
+    zsh
 
 echo "Installing Neovim"
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
+rm nvim-linux64.tar.gz
 echo "Done installing Neovim"
 
 echo "Installing docker"
