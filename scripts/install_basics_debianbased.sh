@@ -1,6 +1,8 @@
 #!/bin/sh
 # currently only supports/tested on deb12
 
+set -x
+
 source_rc () {
     if [ $SHELL = "/bin/zsh" ]; then
         . ~/.zshrc
@@ -11,13 +13,24 @@ source_rc () {
     fi
 }
 
+shell () {
+    if command -v bash 2>%1 >/dev/null; then
+        bash -c "$*"
+    elif command -v zsh 2>%1 >/dev/null; then
+        zsh -c "$*"
+    else
+        echo "Neither bash nor zsh has been found, cannot execute command"
+        exit 1
+    fi
+}
+
 # adding build deps here, but in the future they could be handled by the install script
 # that actually needs them
 sudo apt update
 
 echo "Installing basic apt packages"
 echo "APT - install deps"
-sudo apt --ignore-missing install -y \
+sudo apt install -y \
     libpcap-dev \
     libncurses5 \
     ca-certificates \
@@ -26,7 +39,7 @@ sudo apt --ignore-missing install -y \
 
 echo "APT - install python3 build deps"
 # https://devguide.python.org/getting-started/setup-building/index.html#install-dependencies
-sudo apt --ignore-missing install -y \
+sudo apt install -y \
     build-essential \
     gdb \
     lcov \
@@ -44,11 +57,12 @@ sudo apt --ignore-missing install -y \
     lzma-dev \
     tk-dev \
     uuid-dev \
-    zlib1g-dev \
-    libmpdec-dev # only available for deb <12 and ubuntu <24
+    zlib1g-dev
+
+# libmpdec-dev # only available for deb <12 and ubuntu <24
 
 echo "APT - install tools"
-sudo apt --ignore-missing install -y \
+sudo apt install -y \
     git \
     wget \
     htop \
@@ -56,7 +70,9 @@ sudo apt --ignore-missing install -y \
     make \
     iftop \
     nethogs \
-    zsh
+    zsh \
+    bash \
+    tmux
 
 echo "Installing Neovim"
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
@@ -89,17 +105,16 @@ echo "Done installing docker"
 
 echo "Installing pyenv"
 curl https://pyenv.run | bash
-source_rc
-pyenv install 3.12
-pyenv global 3.12
+shell pyenv install 3.12
+shell pyenv global 3.12
 echo "Done installing pyenv"
 
 git clone https://github.com/nvm-sh/nvm.git ~/.nvm
-pushd ~/.nvm && git checkout v0.40.1 && popd 
+cd ~/.nvm && git checkout v0.40.1 && cd -
 
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
+shell python3 -m pip install --user pipx
+shell python3 -m pipx ensurepath
 
-pipx install poetry
-poetry completions bash >> ~/.bash_completion
+shell pipx install poetry
+shell poetry completions bash >> ~/.bash_completion
 
