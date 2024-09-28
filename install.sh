@@ -1,6 +1,10 @@
 #!/bin/sh
 
-# this script won't be useful unless the repo is made public so unauthed requests can download it
+if ! command -v git 2>%1 >/dev/null; then
+    echo "Git must be installed"
+    exit 1;
+fi
+
 git clone --recurse-submodules https://github.com/Ksauder/linuxhome ~/.homerepo
 cd ~/.homerepo && ./bootstrap.sh
 
