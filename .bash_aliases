@@ -13,8 +13,7 @@ alias tmux-start="tmux new -As0"
 alias ts="tmux-start"
 alias vim="nvim"
 
-function get_tls_cert()
-{
+get_tls_cert () {
     </dev/null openssl s_client -connect $HOST:$PORTNUMBER -servername $SERVERNAME \
     | openssl x509 > /tmp/$SERVERNAME.cert
     echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
@@ -22,7 +21,7 @@ function get_tls_cert()
 
 # docker commands --
 alias dockernuke="docker system prune --volumes -f -a"
-function docker-get-tags() {
+docker-get-tags () {
     if [[ "${1}" == */* ]]; then
         REPO="${1%%/*}";
         IMAGENAME="${1##*/}";
@@ -32,6 +31,11 @@ function docker-get-tags() {
     fi
     curl -s "https://registry.hub.docker.com/v2/repositories/${REPO}/${IMAGENAME}/tags?page_size=1000" | jq -r '.results[].name'
 }
+
+docker-get-tags-sizes () {
+    curl -s https://hub.docker.com/v2/repositories/library/$1/tags/ | \
+        jq '.results[] | select(.name=="latest") | .images[] | {architecture: .architecture, size: .size}'
+}   
 
 # git aliases ---
 alias git-prune-local-branches='git fetch -p; git branch -vv | grep ": gone]" | grep -v "\*" | awk '"'"'{ print $1; }'"'"' | xargs -r git branch -D'
