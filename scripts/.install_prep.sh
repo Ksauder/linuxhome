@@ -1,11 +1,9 @@
 if [ -z "${_INSTALL_PREP}" ]; then
-    _INSTALL_PREP=1
-    REPO_SCRIPTS_DIR="$(realpath $(dirname $(realpath ${0}))/)"
-    LIBDIR="$(realpath $(dirname $(realpath ${0}))/../lib)"
-    . ${LIBDIR}/sh/basic_utils_lib.sh
-    . ${LIBDIR}/sh/repo_tools_lib.sh
-
-    THIS_LOGGER_FILE="/tmp/homerepo-install_$(date +%s).log"
+    export _INSTALL_PREP=1
+    export REPO_ROOT="$(realpath $(dirname $(realpath ${0}))/../)"
+    export THIS_LOGGER_FILE="/tmp/homerepo-install_$(date +%s).log"
+    . ${REPO_ROOT}/lib/sh/basic_utils_lib.sh
+    . ${REPO_ROOT}/lib/sh/repo_tools_lib.sh
 
     show_usage() {
         echo "Usage: $0 <username>"
@@ -16,7 +14,7 @@ if [ -z "${_INSTALL_PREP}" ]; then
         show_usage
         exit 1
     fi
-
+    echo "INSTALL PREP USER $1"
     USER="$1"
 
     if [ -z "$USER" ]; then
@@ -31,7 +29,7 @@ if [ -z "${_INSTALL_PREP}" ]; then
     fi
 
     HOME=
-    HOME=$(getent passwd "$USER" | cut -d: -f6)
+    export HOME=$(getent passwd "$USER" | cut -d: -f6)
 
     if [ ! -d "$HOME" ]; then
         echo "Home directory for user '$USER' does not exist" >&2
