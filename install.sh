@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ! command -v git 2>%1 >/dev/null; then
+if ! command -v git 2>&1 >/dev/null; then
     echo "Git must be installed"
     exit 1;
 fi
