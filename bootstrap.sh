@@ -1,26 +1,22 @@
 #!/bin/bash
+
 REPO_ROOT=$(dirname "$(realpath "$0")")
 BACKUP_DIR="${HOME}/.dotfilebackups"
 
 chmod +x ${REPO_ROOT}/scripts/*
 
 # init any submodules and run any machine setup scripts
-#${REPO_ROOT}/scripts/install_from_submodules.sh
 
-# for file in repo, symlink to ~/
 echo "Linking dotfiles"
 mkdir -p ${BACKUP_DIR}
-for file in $(find ${REPO_ROOT} -maxdepth 1 -type f); do
+for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
     filename=$(basename "${file}")
-    # TODO: implement a link ignore file, or make sure the below line gets only the proper files
-    if [ "${filename:0:1}" = "." ] && [ "${filename}" != ".gitmodules" ]; then
-        echo "- ${HOME}/${filename} -> ${file}"
-        if [ -f "${HOME}/${filename}" ] && [ ! -L "${HOME}/${filename}" ]; then
-            # FIXME: what if the existing node isn't a file, but instead a symlink?
-            mv "$HOME/${filename}" "${BACKUP_DIR}/${filename}.orig.bak"
-        fi
-        ln -s "$(realpath ${file})" "$HOME/${filename}"
+    echo "- ${HOME}/${filename} -> ${file}"
+    if [ -f "${HOME}/${filename}" ] && [ ! -L "${HOME}/${filename}" ]; then
+        # FIXME: what if the existing node isn't a file, but instead a symlink?
+        mv "$HOME/${filename}" "${BACKUP_DIR}/${filename}.orig.bak"
     fi
+    ln -s "$(realpath ${file})" "$HOME/${filename}"
 done
 echo "dotfiles linked"
 

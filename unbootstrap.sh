@@ -1,21 +1,17 @@
 #!/bin/sh
 
+REPO_ROOT=$(dirname "$(realpath "$0")")
 BACKUP_DIR="${HOME}/.dotfilebackups"
 
-# for dotfile in homerepo
-#   unlink dotfile
-#   mv .orig.bak dotfile back in place if exists in .dotfilebackups dir
-# endfor
 echo "Unlinking dotfiles"
-for file in $(find ${REPO_ROOT} -maxdepth 1 -type f); do
+for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
     filename=$(basename "${file}")
-    if [ "${filename:0:1}" = "." ] && [ "${filename}" != ".gitmodules" ]; then
-        echo "- removing ${HOME}/${filename} -> ${file}"
-        if [ -f "${HOME}/${filename}" ] && [ ! -L "${HOME}/${filename}" ]; then
-            echo "- replacing ${filename} from ${BACKUP_DIR}"
-            mv "${BACKUP_DIR}/${filename}.orig.bak" "$HOME/${filename}"
-        fi
-        rm "$(realpath ${file})"
+    echo "- removing ${HOME}/${filename} -> ${file}"
+    if [ -f "${HOME}/${filename}" ] && [ ! -L "${HOME}/${filename}" ]; then
+        echo "- replacing ${filename} from ${BACKUP_DIR}"
+        mv "${BACKUP_DIR}/${filename}.orig.bak" "$HOME/${filename}"
+    else
+        rm "${HOME}/${filename}"
     fi
 done
 
@@ -29,10 +25,6 @@ else
     ls -l ${BACKUP_DIR}
 fi
 
-# for dir in homerepo/.config
-#   unlink dir
-#   mv backup dir from .configbackups dir if exists
-# enfor
 echo "Unlinking config dirs" # TODO: backup any conflicting dirs
 for d in $(find ${REPO_ROOT}/config -maxdepth 1 -mindepth 1 -type d); do
     echo "- removing $HOME/.config/$(basename ${d}) -> $(realpath ${d})"
