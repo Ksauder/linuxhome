@@ -1,0 +1,12 @@
+FROM debian:11
+ARG USER
+ARG UID
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    apt-utils \
+    curl \
+    git
+
+RUN adduser --uid ${UID} --disabled-password --gecos "" ${USER}
+

@@ -1,0 +1,13 @@
+FROM ubuntu:24.04
+ARG USER
+ARG UID
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    apt-utils \
+    curl \
+    git
+
+RUN userdel -r -f ubuntu && \
+    useradd -m --uid ${UID} ${USER}
+
