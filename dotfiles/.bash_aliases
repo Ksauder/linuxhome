@@ -55,3 +55,4 @@ alias gomplate='docker run hairyhenderson/gomplate:stable'
 alias run_pgsql="PGVERSION=${PGVERSION:-14} docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=toortoor -v postgres_local_data:/var/lib/postgresql/data postgres:14"
 alias pgloader="docker run --rm -it ghcr.io/dimitri/pgloader:latest pgloader"
 alias openapi-generator="docker run --rm -v $(pwd):/local openapitools/openapi-generator-cli:latest"
+alias bashly='docker run --rm -it --user $(id -u):$(id -g) -v "$(pwd):/app" dannyben/bashly:edge'
