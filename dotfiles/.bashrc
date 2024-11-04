@@ -112,6 +112,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+
+
 if [ -f ~/.commonrc ]; then
     . ~/.commonrc
 fi
