@@ -1,7 +1,9 @@
 #!/bin/bash
 
-REPO_ROOT=$(dirname "$(realpath "$0")")
-BACKUP_DIR="${HOME}/.dotfilebackups"
+# required vars
+# REPO_ROOT=$(dirname "$(realpath "$0")")
+# BACKUP_DIR="${HOME}/.dotfilebackups"
+# HOME
 
 chmod +x ${REPO_ROOT}/scripts/*
 

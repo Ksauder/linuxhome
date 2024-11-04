@@ -1,0 +1,58 @@
+name: homerepo
+help: Sample application
+version: 0.1.0
+
+variables:
+  - name: testvar
+    value: testval
+  - name: distros
+    value: &distros
+      - debian11
+      - debian12
+      - ubuntu20
+      - ubuntu22
+      - ubuntu24
+  - name: docker_prefix
+    value: homerepo_
+
+environment_variables:
+  - name: repo_root
+    help: root dir of the repo
+    default: $(dirname $(realpath $0))
+  - name: backup_dir
+    help: directory used to backup and restore existing dotfiles 
+    default: ${HOME}/.dotfilebackups
+  - name: test_dir
+    default: ${REPO_ROOT}/tests
+
+commands:
+  - name: bootstrap
+    alias: b
+    help: Bootstrap the homedir using dotfiles and config files
+
+  - name: unbootstrap
+    alias: ub
+    help: Revert the bootstrap and return homedir to previous state (probably)
+
+  - name: install
+    alias: i
+    help: run an install script by name, will automatically guess the right flavor for your box
+
+  - name: test
+    alias: t
+    help: test things, not sure how this works yet
+    args:
+      - name: distro
+        help: Name of the distribution to test against, a docker container will be used to execute the tests
+        allowed: *distros
+        required: true
+      - name: test
+        help: Name of test script to run. Scripts are under tests/ dir
+        required: true
+      - name: homerepo_user
+        help: user to use for test
+        default: ${USER}
+
+  - name: build-images
+    help: build the docker images used for testing
+

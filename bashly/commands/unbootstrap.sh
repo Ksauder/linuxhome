@@ -1,7 +1,9 @@
 #!/bin/sh
 
-REPO_ROOT=$(dirname "$(realpath "$0")")
-BACKUP_DIR="${HOME}/.dotfilebackups"
+# required vars
+# REPO_ROOT=$(dirname "$(realpath "$0")")
+# BACKUP_DIR="${HOME}/.dotfilebackups"
+# HOME
 
 echo "Unlinking dotfiles"
 for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
