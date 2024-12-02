@@ -18,7 +18,7 @@ for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
         # FIXME: what if the existing node isn't a file, but instead a symlink?
         mv "$HOME/${filename}" "${BACKUP_DIR}/${filename}.orig.bak"
     fi
-    ln -s "$(realpath ${file})" "$HOME/${filename}"
+    ln -s "$(realpath ${file})" "$HOME/${filename}" || true
 done
 echo "dotfiles linked"
 

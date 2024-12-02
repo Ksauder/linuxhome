@@ -13,14 +13,14 @@ for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
         echo "- replacing ${filename} from ${BACKUP_DIR}"
         mv "${BACKUP_DIR}/${filename}.orig.bak" "$HOME/${filename}"
     else
-        rm "${HOME}/${filename}"
+        rm -f "${HOME}/${filename}"
     fi
 done
 
 # FIXME: should BACKUP_DIR hold all backups, including config dirs?
 # check the backup dir for leftovers
 if [ -d "${BACKUP_DIR}" ] && [ -z "$(ls -A "${BACKUP_DIR}")" ]; then
-    rm -r "${BACKUP_DIR}"
+    rm -rf "${BACKUP_DIR}"
 else
     echo "Warning: '${BACKUP_DIR}' is not empty or does not exist."
     echo "Leftover backup files:"
