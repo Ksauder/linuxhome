@@ -1,245 +1,119 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-################################################################################
-# Generic helper functions
-################################################################################
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-# Returns whether the given command is executable or aliased.
-_has() {
-  return $(whence $1 >/dev/null)
-}
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="aussiegeek"
 
-# Prepend a directory to path, if it exists.
-_prepend_to_path() {
-  if [ -d $1 ]; then
-    path=($1 $path);
-  fi
-}
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# Append a directory to path, if it exists and isn't already in the path.
-_append_to_path() {
-  if [ -d $1 -a -z ${path[(r)$1]} ]; then
-    path=($path $1);
-  fi
-}
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-################################################################################
-# Modify the path
-################################################################################
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# Add common bin directories to path.
-_prepend_to_path /usr/local/bin
-_prepend_to_path /usr/local/sbin
-_prepend_to_path $HOME/.local/bin
-if [[ $(uname) == "Darwin" ]]; then
-  _prepend_to_path /opt/homebrew/bin
-fi
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
-################################################################################
-# Oh-My-ZSH prerequisite setup
-################################################################################
+# Uncomment the following line to change how often to auto-update (in days).
+zstyle ':omz:update' frequency 13
 
-# Set OMZ installation location.
-ZSH=$HOME/.oh-my-zsh
-DISABLE_UPDATE_PROMPT=true
-# Set zsh theme to be powerlevel10k with patched fontawesome symbols.
-POWERLEVEL9K_MODE='nerdfont-v3'
-ZSH_THEME='powerlevel10k/powerlevel10k'
-# OMZ messes with the ls colors by default. Let's not have it do that.
-DISABLE_LS_COLORS=true
-export LS_COLORS=
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
-# These are the default OMZ plugins that we'll install.
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  brew
-  history-substring-search
-  colored-man-pages
-  vi-mode
-  git-auto-fetch
-  fast-syntax-highlighting
-  zsh-autosuggestions
+    git
+    extract
 )
 
-################################################################################
-# FZF setup
-################################################################################
-
-# Add fzf to path. We use locally-installed versions of fzf.
-fzf_paths=(
-  "${HOME}/.local/share/nvim/lazy/fzf"
-  "${HOME}/.local/share/nvim/site/pack/packer/start/fzf"
-  "${HOME}/.vim/plugged/fzf"
-)
-for fzf_path in "${fzf_paths[@]}"; do
-  if [ -d $fzf_path ]; then
-    _prepend_to_path "${fzf_path}/bin"
-    break
-  fi
-done
-
-if _has fzf; then
-  if _has fd; then
-    # Use fd for fzf.
-    FZF_DEFAULT_COMMAND='fd --type f --follow --hidden'
-    FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-    # Use fd for fzf directory search.
-    FZF_ALT_C_COMMAND='fd --type d --color never'
-  fi
-
-  # Display source tree and file preview for ALT-C.
-  FZF_ALT_C_OPTS="--preview '(eza --tree --icons --level 3 --color=always --group-directories-first {} || tree -C {}) | head -200'"
-
-  # Bind alt-j/k/d/u to moving the preview window for fzf.
-  FZF_DEFAULT_OPTS="--bind alt-k:preview-up,alt-j:preview-down,alt-u:preview-page-up,alt-d:preview-page-down"
-
-  # Show previews for files and directories.
-  # Having `bat` or `highlight` (or any of the other binaries below) installed
-  # enables syntax highlighting.
-  FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -200'"
-
-  # Some basic fzf-tab configs.
-  plugins+=(fzf-tab)
-  zstyle ':fzf-tab:complete:cd:*' fzf-preview '(eza --tree --icons --color=always $realpath || tree -C $realpath) 2> /dev/null'
-  zstyle ':completion:*:descriptions' format '[%d]'
-  zstyle ':fzf-tab:*' switch-group ',' '.'
-fi
-
-################################################################################
-# Editor setup
-################################################################################
-
-# Set Vim as the default editor.
-export EDITOR="vim"
-# Use Neovim instead of classic Vim (if available)
-if _has nvim; then
-  alias vim="nvim"
-  alias vi="nvim"
-  export EDITOR="nvim"
-fi
-
-################################################################################
-# Tmux setup
-################################################################################
-
-# Use 256 color for tmux.
-alias tmux="TERM=screen-256color-bce tmux"
-# Attempt to take over existing sessions before creating a new tmux session.
-t() {
-  tmux -u new -ADs ${1:-tmux}
-}
-if [[ -z "$TMUX" ]]; then
-  # Switch to xterm if we're in a tmux session.
-  TERM="xterm-256color"
-fi
-
-################################################################################
-# Set up other environment variables, aliases, and options
-################################################################################
-
-# Make sure we're using UTF-8.
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
-
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=italic,underline"
-export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
-# Export theme for http://github.com/sharkdp/bat.
-export BAT_THEME="Solarized (dark)"
-
-# The bat executable may sometimes be called batcat on Debian/Ubuntu.
-if _has batcat; then
-  alias bat="batcat"
-fi
-if _has bat; then
-  alias cat="bat"
-fi
-
-# Set shell options.
-setopt correct # enable spelling suggestions
-setopt rmstarsilent # silence rm * confirmation
-
-# Decrease delay in entering normal mode in shell.
-# https://www.johnhawthorn.com/2012/09/vi-escape-delays/
-KEYTIMEOUT=1
-
-################################################################################
-# Source Oh-My-ZSH.
-################################################################################
-
-# All theme and plugin configs must come beforehand.
-# Sourcing this may have side-effects, so order matters.
-# For the most part, it seems like bindkey gets overwritten.
-# Hence they must be after the OMZ sourcing.
 source $ZSH/oh-my-zsh.sh
 
-################################################################################
-# Actions with side-effects after sourcing Oh-My-ZSH
-################################################################################
+# User configuration
 
-# Set key bindings.
-bindkey -v # vi mode for shell
-bindkey -e # enable C-x-e for shell editor
-# Key bindings for history search.
-bindkey '\e[3~' delete-char
-bindkey '^R' history-incremental-search-backward
-# Explicity bind home and end keys (in case of terminal compatibility issues)
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
+# export MANPATH="/usr/local/man:$MANPATH"
 
-# Alias `eza` as default `ls` command (if available).
-# This must come after OMZ. (The library overwrites this alias.)
-if _has eza; then
-  alias ls="eza"
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+if [ -f ~/.aliases_bash_zsh ]; then
+    . ~/.aliases_bash_zsh
 fi
 
-# Source fzf scripts via local installation.
-# OMZ overwrites some of these scripts, so this must come afterwards.
-if _has fzf; then
-  # Source fzf key bindings and auto-completion.
-  # NOTE: This uses the ${fzf_path} variable from earlier. This is intentional.
-  source "${fzf_path}/shell/key-bindings.zsh"
-  source "${fzf_path}/shell/completion.zsh"
+if [ -f ~/.rc_bash_zsh ]; then
+    . ~/.rc_bash_zsh
 fi
 
-if _has zoxide; then
-  eval "$(zoxide init --cmd cd zsh)"
+if [ -f ~/.zshrc.local ]; then
+    . ~/.zshrc.local
 fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Source local zshrc configs.
-if [[ -f ~/.zshrc.local ]]; then
-  source ~/.zshrc.local
-fi
-
-if [[ -f ~/.bash_aliases ]]; then
-  source ~/.bash_aliases
-fi
-if [[ -f ~/.bash_aliases.local ]]; then
-  source ~/.bash_aliases.local
-fi
-
-export PATH="~/.local/bin:$PATH"
-
-pasteinit() {
-  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
-}
-
-pastefinish() {
-  zle -N self-insert $OLD_SELF_INSERT
-}
-zstyle :bracketed-paste-magic paste-init pasteinit
-zstyle :bracketed-paste-magic paste-finish pastefinish
-
-if [ -f ~/.commonrc ]; then
-    source ~/.commonrc
-fi
-
-export PATH="$PATH:/opt/nvim-linux64/bin"

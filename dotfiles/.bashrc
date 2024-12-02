@@ -101,6 +101,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if [ -f ~/.aliases_bash_zsh ]; then
+    . ~/.aliases_bash_zsh
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -117,8 +121,8 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 
-if [ -f ~/.commonrc ]; then
-    . ~/.commonrc
+if [ -f ~/.rc_bash_zsh ]; then
+    . ~/.rc_bash_zsh
 fi
 
 export PATH="$PATH:/opt/nvim-linux64/bin"
