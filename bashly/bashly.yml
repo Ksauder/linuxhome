@@ -16,13 +16,13 @@ variables:
     value: homerepo_
 
 environment_variables:
-  - name: repo_root
+  - name: REPO_ROOT
     help: root dir of the repo
     default: $(dirname $(realpath $0))
-  - name: backup_dir
+  - name: BACKUP_DIR
     help: directory used to backup and restore existing dotfiles 
     default: ${HOME}/.dotfilebackups
-  - name: test_dir
+  - name: TEST_DIR
     default: ${REPO_ROOT}/tests
 
 commands:

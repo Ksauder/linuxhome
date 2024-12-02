@@ -1,5 +1,5 @@
 #!/bin/sh
-. $(realpath $(dirname $0)/.install_prep.sh) ${1}
+. $(realpath $(dirname $0)/.install_prep.sh)
 
 echo "Installing basic apt packages"
 install_packages \
@@ -8,7 +8,6 @@ install_packages \
     ca-certificates \
     curl \
     fonts-font-awesome
-
 
 echo "Install tools"
 install_packages \
@@ -32,4 +31,5 @@ run_install_script pyenv
 run_install_script nvm
 run_install_script poetry
 run_install_script neovim
+run_install_script git-completions
 
