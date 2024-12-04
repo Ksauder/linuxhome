@@ -6,5 +6,5 @@ if ! command -v git 2>&1 >/dev/null; then
 fi
 
 git clone --recurse-submodules https://github.com/Ksauder/linuxhome ~/.homerepo
-cd ~/.homerepo && ./bootstrap.sh
+cd ~/.homerepo && ./homerepo bootstrap
 
