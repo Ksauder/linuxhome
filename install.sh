@@ -5,6 +5,6 @@ if ! command -v git 2>&1 >/dev/null; then
     exit 1;
 fi
 
-git clone --recurse-submodules https://github.com/Ksauder/linuxhome ~/.homerepo
+git clone --recurse-submodules git@github.com:Ksauder/linuxhome.git ~/.homerepo
 cd ~/.homerepo && ./homerepo bootstrap
 
