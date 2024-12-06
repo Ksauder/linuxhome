@@ -33,10 +33,7 @@ for d in $(find ${REPO_ROOT}/config -maxdepth 1 -mindepth 1 -type d); do
     local existing_path="${HOME}/.config/$(basename ${d})"
     local target_path="$(realpath ${d})"
     local backup_path="${CONFIG_BACKUP_DIR}/$(basename ${d})"
-    echo ${target_path}
-    echo ${existing_path}
-    echo ${backup_path}
-    if [ -d ${target_path} ] && [ ! -L ${target_path} ]; then
+    if [ -d ${existing_path} ] && [ ! -L ${existing_path} ]; then
 	echo "Backing up ${existing_path} to ${backup_path}"
 	mv ${existing_path} ${backup_path}
     fi
