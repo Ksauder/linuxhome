@@ -2,11 +2,16 @@
 
 git_version=$(git version | cut -d' ' -f 3)
 
-bashrc=~/.bashrc
+bashrc=~/.bashrc.local
+# TODO: inserting stuff into *rc.local should be a function to handle the formatting and check if it exists
 bashrcsnip="
+
+# <${0} >
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
+# <${0} />
+
 "
 
 if [[ "${SHELL}" == "/bin/bash" ]]; then

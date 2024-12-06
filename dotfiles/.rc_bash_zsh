@@ -15,3 +15,7 @@ if [ -f ~/.nvm/nvm.sh ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
+
+if [ -f ~/.rc_bash_zsh.local ]; then
+    . ~/.rc_bash_zsh.local
+fi

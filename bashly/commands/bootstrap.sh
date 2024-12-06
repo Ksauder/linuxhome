@@ -27,6 +27,14 @@ for file in $(find ${REPO_ROOT}/dotfiles -maxdepth 1 -type f,l); do
 done
 echo "dotfiles linked"
 
+echo "Creating dot files for local only configuration"
+for path in "${HOME}/.profile.local" "${HOME}/.bashrc.local" "${HOME}/.zshrc.local" "${HOME}/.rc_bash_zsh.local"; do
+    if [ ! -f "${path}" ]; then
+        echo " -> creating ${path}"
+        echo "# This file is for your local configuration, and install scripts will add their modifications to this file" >> "${path}"
+    fi
+done
+
 echo "Linking config dirs"
 mkdir -p "$HOME/.config"
 for d in $(find ${REPO_ROOT}/config -maxdepth 1 -mindepth 1 -type d); do

@@ -125,5 +125,6 @@ if [ -f ~/.rc_bash_zsh ]; then
     . ~/.rc_bash_zsh
 fi
 
-export PATH="$PATH:/opt/nvim-linux64/bin"
-
+if [ -f ~/.bashrc.local ]; then
+    . ~/.bashrc.local
+fi
