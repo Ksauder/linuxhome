@@ -106,6 +106,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# .bash_aliases may contain bash only script, although unlikely
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 if [ -f ~/.aliases_bash_zsh ]; then
     . ~/.aliases_bash_zsh
 fi
