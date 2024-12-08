@@ -46,3 +46,6 @@
 [rerere]
     enabled = true
 
+[user]
+	email = ksauder.dev@gmail.com
+	name = Ksauder
