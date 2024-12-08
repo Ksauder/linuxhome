@@ -42,13 +42,13 @@ for d in $(find ${REPO_ROOT}/config -maxdepth 1 -mindepth 1 -type d); do
     local target_path="$(realpath ${d})"
     local backup_path="${CONFIG_BACKUP_DIR}/$(basename ${d})"
     if [ -d ${existing_path} ] && [ ! -L ${existing_path} ]; then
-	echo "Backing up ${existing_path} to ${backup_path}"
-	mv ${existing_path} ${backup_path}
+        echo "Backing up ${existing_path} to ${backup_path}"
+        mv ${existing_path} ${backup_path}
     fi
     # FIXME: not working for some reason? Links even if the existing_path is a link
     if [ ! -L ${existing_path} ]; then
     	echo "- ${existing_path} -> ${target_path}"
-    	ln -s ${target_path} ${existing_path}
+    	ln -n -s ${target_path} ${existing_path}
     fi
 done
 echo "Done linking config dirs"
