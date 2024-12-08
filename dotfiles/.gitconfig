@@ -1,18 +1,18 @@
 [alias]
-	co = checkout
+    co = checkout
 	ci = commit
 	di = diff
 	st = status
-	br = branch
+	br = branch -v -a
 	clonewmods = clone --recurse-submodules -j8
 	subup = submodule update --init --recursive
-  staash = stash --all
-  blaame = blame -w -C -C -C -L
-  wdiff = diff --word-diff
-  rdiff = diff --submodule=diff
-  discard = !git checkout -- . && git submodule foreach git checkout -- .
+    staash = stash --all
+    blaame = blame -w -C -C -C -L
+    wdiff = diff --word-diff
+    rdiff = diff --submodule=diff
+    discard = !git checkout -- . && git submodule foreach git checkout -- .
 [fetch]
-  writeCommitGraph = true
+    writeCommitGraph = true
 [color]
 	diff = auto
 	status = auto
@@ -38,14 +38,11 @@
 [interactive]
 	diffFilter = delta --color-only
 [merge]
-  conflictstyle = diff3
+    conflictstyle = diff3
 [commit]
-  verbose = true
+    verbose = true
 [diff]
-  algorithm = histogram
+    algorithm = histogram
 [rerere]
-  enabled = true
+    enabled = true
 
-[user]
-	email = ksauder.dev@gmail.com
-	name = ksauder
