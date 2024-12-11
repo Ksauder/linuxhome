@@ -24,11 +24,10 @@ install_packages \
 # libmpdec-dev # only available for deb <12 and ubuntu <24
 
 echo "Installing pyenv for ${USER}"
-user_shell 'curl https://pyenv.run | bash'
-user_shell 'pyenv install 3.12'
-user_shell 'pyenv global 3.12'
+curl https://pyenv.run | bash
+pyenv install 3.12
+pyenv global 3.12
 echo "Done installing pyenv"
 
-user_shell 'python3 -m pip install --user pipx'
-user_shell 'python3 -m pipx ensurepath'
-
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath

@@ -7,7 +7,8 @@ install_packages \
     libncurses5 \
     ca-certificates \
     curl \
-    fonts-font-awesome
+    fonts-font-awesome \
+    snapd
 
 echo "Install tools"
 install_packages \
@@ -32,4 +33,3 @@ run_install_script nvm
 run_install_script poetry
 run_install_script neovim
 run_install_script git-completions
-

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# FIXME: should install scripts be run from a user context? how should my shell functions work then
+
 echo "Install python3 build deps"
 # https://devguide.python.org/getting-started/setup-building/index.html#install-dependencies
 install_packages \
@@ -23,12 +25,12 @@ install_packages \
     zlib1g-dev
 # libmpdec-dev # only available for deb <12 and ubuntu <24
 
-echo "Installing pyenv for ${USER}"
-user_shell 'curl https://pyenv.run | bash'
-user_shell 'pyenv install 3.12'
-user_shell 'pyenv global 3.12'
+echo "Installing pyenv for ${SUDO_USER}"
+curl https://pyenv.run | bash
+# FIXME: breaks here, I tihnk I need to eval the pyenv init manually here
+pyenv install 3.12
+pyenv global 3.12
 echo "Done installing pyenv"
 
-user_shell 'python3 -m pip install --user pipx'
-user_shell 'python3 -m pipx ensurepath'
-
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath

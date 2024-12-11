@@ -1,2 +1,2 @@
-user_shell 'pipx install poetry'
-user_shell 'poetry completions bash >> $HOME/.bash_completion'
+pipx install poetry
+poetry completions bash >>$HOME/.bash_completion
