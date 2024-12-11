@@ -7,8 +7,6 @@
 
 CONFIG_BACKUP_DIR="${BACKUP_DIR}/config_backup"
 
-chmod +x ${REPO_ROOT}/scripts/*
-
 # init any submodules and run any machine setup scripts
 
 echo "Linking dotfiles"
@@ -31,7 +29,7 @@ echo "Creating dot files for local only configuration"
 for path in "${HOME}/.profile.local" "${HOME}/.bashrc.local" "${HOME}/.zshrc.local" "${HOME}/.rc_bash_zsh.local"; do
     if [ ! -f "${path}" ]; then
         echo " -> creating ${path}"
-        echo "# This file is for your local configuration, and install scripts will add their modifications to this file" >> "${path}"
+        echo "# This file is for your local configuration, and install scripts will add their modifications to this file" >>"${path}"
     fi
 done
 
@@ -47,8 +45,8 @@ for d in $(find ${REPO_ROOT}/config -maxdepth 1 -mindepth 1 -type d); do
     fi
     # FIXME: not working for some reason? Links even if the existing_path is a link
     if [ ! -L ${existing_path} ]; then
-    	echo "- ${existing_path} -> ${target_path}"
-    	ln -n -s ${target_path} ${existing_path}
+        echo "- ${existing_path} -> ${target_path}"
+        ln -n -s ${target_path} ${existing_path}
     fi
 done
 echo "Done linking config dirs"
