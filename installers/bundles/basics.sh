@@ -1,10 +1,9 @@
 #!/bin/sh
-. $(realpath $(dirname $0)/.install_prep.sh)
 
 echo "Installing basic apt packages"
 install_packages \
     libpcap-dev \
-    libncurses5 \
+    libncurses6 \
     ca-certificates \
     curl \
     fonts-font-awesome \
@@ -25,7 +24,8 @@ install_packages \
     jq \
     gcc \
     make \
-    pkg-config
+    pkg-config \
+    npm
 
 run_install_script docker
 run_install_script pyenv

@@ -29,6 +29,7 @@ homerepo_usage() {
   printf "  %s   Bootstrap the homedir using dotfiles and config files\n" "$(green "bootstrap")   "
   printf "  %s   Revert the bootstrap and return homedir to previous state (probably)\n" "$(green "unbootstrap") "
   printf "  %s   run an install script by name, will automatically guess the right flavor for your box\n" "$(green "install")     "
+  printf "  %s   Use bundle scripts. Maybe they need to be called something else\n" "$(green "bundle")      "
   printf "  %s   test things, not sure how this works yet\n" "$(green "test")        "
   printf "  %s   build the docker images used for testing\n" "$(green "build-images")"
   echo
@@ -147,6 +148,60 @@ homerepo_install_usage() {
     # :argument.usage
     printf "  %s\n" "$(white "PACKAGE")"
     printf "    Name of package install script to run for current distro\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+homerepo_bundle_usage() {
+  printf "homerepo bundle - Use bundle scripts. Maybe they need to be called something else\n\n"
+
+  printf "%s\n" "$(cyan "Usage:")"
+  printf "  homerepo bundle COMMAND\n"
+  printf "  homerepo bundle [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(cyan "Commands:")"
+  printf "  %s   Run a bundle script\n" "$(green "run")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(cyan "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(blue "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+homerepo_bundle_run_usage() {
+  printf "homerepo bundle run - Run a bundle script\n\n"
+
+  printf "%s\n" "$(cyan "Usage:")"
+  printf "  homerepo bundle run BUNDLE_NAME\n"
+  printf "  homerepo bundle run --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(cyan "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(blue "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "$(cyan "Arguments:")"
+
+    # :argument.usage
+    printf "  %s\n" "$(white "BUNDLE_NAME")"
+    printf "    Name of bundle to be run\n"
     echo
 
   fi
@@ -463,6 +518,21 @@ homerepo_install_command() {
 }
 
 # :command.function
+homerepo_bundle_run_command() {
+
+  # bashly/commands/bundle/run.sh
+  . ${REPO_ROOT}/lib/sh/basic_utils_lib.sh
+
+  if [[ $EUID == 0 ]]; then
+      echo "Don't run this as root"
+      exit 1
+  fi
+
+  run_bundle_script "${args[bundle_name]}"
+
+}
+
+# :command.function
 homerepo_test_command() {
 
   # bashly/commands/test.sh
@@ -569,6 +639,13 @@ parse_requirements() {
       action="install"
       shift
       homerepo_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    bundle)
+      action="bundle"
+      shift
+      homerepo_bundle_parse_requirements "$@"
       shift $#
       ;;
 
@@ -770,6 +847,131 @@ homerepo_install_parse_requirements() {
 }
 
 # :command.parse_requirements
+homerepo_bundle_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        homerepo_bundle_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    run)
+      action="run"
+      shift
+      homerepo_bundle_run_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      homerepo_bundle_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+homerepo_bundle_run_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        homerepo_bundle_run_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="bundle run"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['bundle_name']+x} ]]; then
+          args['bundle_name']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+  # :command.required_args_filter
+  if [[ -z ${args['bundle_name']+x} ]]; then
+    printf "missing required argument: BUNDLE_NAME\nusage: homerepo bundle run BUNDLE_NAME\n" >&2
+
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
 homerepo_test_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -937,6 +1139,8 @@ run() {
     "bootstrap") homerepo_bootstrap_command ;;
     "unbootstrap") homerepo_unbootstrap_command ;;
     "install") homerepo_install_command ;;
+    "bundle") homerepo_bundle_command ;;
+    "bundle run") homerepo_bundle_run_command ;;
     "test") homerepo_test_command ;;
     "build-images") homerepo_build_images_command ;;
   esac

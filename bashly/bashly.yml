@@ -44,6 +44,16 @@ commands:
       - name: package
         help: Name of package install script to run for current distro
         required: true
+  
+  - name: bundle
+    help: Use bundle scripts. Maybe they need to be called something else
+    commands:
+      - name: run
+        help: Run a bundle script
+        args:
+          - name: bundle_name
+            help: Name of bundle to be run
+            required: true
 
   - name: test
     alias: t

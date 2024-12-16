@@ -49,6 +49,19 @@ if [ -z "$_LIB_BASIC_UTILS" ]; then
         fi
     }
 
+    run_bundle_script() {
+        BUNDLE_NAME=${1}
+        BUNDLE_DIR="${REPO_ROOT}/installers/bundles"
+        BUNDLE_PATH="${BUNDLE_DIR}/${BUNDLE_NAME}.sh"
+
+        if [ -f "${BUNDLE_PATH}" ]; then
+            . "${BUNDLE_PATH}"
+        else
+            echo "${BUNDLE_PATH} does not exist"
+            exit 1
+        fi
+    }
+
     install_packages() {
         detect_os
         if [ ${ID}="debian" ] || [ ${ID}="ubuntu" ]; then
