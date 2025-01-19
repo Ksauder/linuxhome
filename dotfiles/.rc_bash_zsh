@@ -1,3 +1,8 @@
+if [[ ${TMUX_PANE} ]]; then
+    mkdir -p ${HOME}/.shell_histfiles
+    HISTFILE=$HOME/.shell_histfiles/.$(basename ${SHELL})_history_tmux_${TMUX_PANE:1}
+fi
+
 # vim: set syn=sh:
 # Created by `pipx`
 export PATH="$PATH:/home/kyle/.local/bin"
