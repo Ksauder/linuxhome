@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -f ~/.config/rclone/rclone.conf ]; then
+    echo "Do rclone config for onedrive first"
+    exit 1
+fi
+
 # do rclone stuff
 USER_HOMEDIR=/home/ksauder@kdsbunker.com
 RCLONE_REMOTE=onedrive
