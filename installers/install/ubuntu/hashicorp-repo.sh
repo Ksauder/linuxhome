@@ -1,0 +1,1 @@
+../common/hashicorp-repo.sh

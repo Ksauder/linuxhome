@@ -25,9 +25,9 @@ install_packages \
 
 echo "Installing pyenv for ${USER}"
 curl https://pyenv.run | bash
-pyenv install 3.12
-pyenv global 3.12
 echo "Done installing pyenv"
 
+pyenv install 3.12
+pyenv global 3.12
 python3 -m pip install --user pipx
 python3 -m pipx ensurepath
