@@ -13,6 +13,14 @@ alias tmux-start="tmux new -As0"
 alias ts="tmux-start"
 alias vim="nvim"
 
+count-lines() {
+    if [ -z "${1}" ]; then
+        echo "Usage: count-lines <file-extension>";
+    else
+        find . -name "*.${1}" -print0 | xargs -0 wc -l | awk '{ total += $1 } END { print total }'
+    fi
+}
+
 get_tls_cert () {
     </dev/null openssl s_client -connect $HOST:$PORTNUMBER -servername $SERVERNAME \
     | openssl x509 > /tmp/$SERVERNAME.cert
@@ -52,6 +60,9 @@ alias gst='git status'
 alias gsh='git stash -u'
 alias gp='git push'
 alias gf='git fetch'
+git-squash () {
+    git reset --soft HEAD~${1} && git commit --edit -m"$(git log --format=%B --reverse HEAD..HEAD@{1})"
+}
 
 # docker apps ---
 alias gomplate='docker run hairyhenderson/gomplate:stable'
