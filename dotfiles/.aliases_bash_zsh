@@ -70,3 +70,6 @@ alias run_pgsql="PGVERSION=${PGVERSION:-14} docker run -d --name postgres -p 543
 alias pgloader="docker run --rm -it ghcr.io/dimitri/pgloader:latest pgloader"
 alias openapi-generator="docker run --rm -v $(pwd):/local openapitools/openapi-generator-cli:latest"
 alias bashly='docker run --rm -it --user $(id -u):$(id -g) -v "$(pwd):/app" dannyben/bashly:edge'
+alias zap-headless='docker run -u zap --network host --rm zaproxy/zap-stable zap-webswing.sh'
+alias cursor='./Apps/Cursor-0.48.8-x86_64.AppImage --no-sandbox'
+alias which-gpu='glxinfo |grep -E "OpenGL vendor|OpenGL renderer"'
