@@ -1,5 +1,4 @@
 # util shortcuts ---
-
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
@@ -15,15 +14,15 @@ alias vim="nvim"
 
 count-lines() {
     if [ -z "${1}" ]; then
-        echo "Usage: count-lines <file-extension>";
+        echo "Usage: count-lines <file-extension>"
     else
         find . -name "*.${1}" -print0 | xargs -0 wc -l | awk '{ total += $1 } END { print total }'
     fi
 }
 
-get_tls_cert () {
-    </dev/null openssl s_client -connect $HOST:$PORTNUMBER -servername $SERVERNAME \
-    | openssl x509 > /tmp/$SERVERNAME.cert
+get_tls_cert() {
+    </dev/null openssl s_client -connect $HOST:$PORTNUMBER -servername $SERVERNAME |
+        openssl x509 >/tmp/$SERVERNAME.cert
     echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 }
 
@@ -32,21 +31,21 @@ alias nix="nix --extra-experimental-features nix-command"
 
 # docker commands --
 alias dockernuke="docker system prune --volumes -f -a"
-docker-get-tags () {
+docker-get-tags() {
     if [[ "${1}" == */* ]]; then
-        REPO="${1%%/*}";
-        IMAGENAME="${1##*/}";
+        REPO="${1%%/*}"
+        IMAGENAME="${1##*/}"
     else
-        REPO="library";
-        IMAGENAME="${1}";
+        REPO="library"
+        IMAGENAME="${1}"
     fi
     curl -s "https://registry.hub.docker.com/v2/repositories/${REPO}/${IMAGENAME}/tags?page_size=1000" | jq -r '.results[].name'
 }
 
-docker-get-tags-sizes () {
-    curl -s https://hub.docker.com/v2/repositories/library/$1/tags/ | \
+docker-get-tags-sizes() {
+    curl -s https://hub.docker.com/v2/repositories/library/$1/tags/ |
         jq '.results[] | select(.name=="latest") | .images[] | {architecture: .architecture, size: .size}'
-}   
+}
 
 # git aliases ---
 alias git-prune-local-branches='git fetch -p; git branch -vv | grep ": gone]" | grep -v "\*" | awk '"'"'{ print $1; }'"'"' | xargs -r git branch -D'
@@ -60,7 +59,7 @@ alias gst='git status'
 alias gsh='git stash -u'
 alias gp='git push'
 alias gf='git fetch'
-git-squash () {
+git-squash() {
     git reset --soft HEAD~${1} && git commit --edit -m"$(git log --format=%B --reverse HEAD..HEAD@{1})"
 }
 
