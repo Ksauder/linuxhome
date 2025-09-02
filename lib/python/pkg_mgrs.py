@@ -1,6 +1,6 @@
 from typing import List, Type
 import abc
-from utils import sudo_prefix, have_cmd, run_cmd
+from .utils import sudo_prefix, have_cmd, run_cmd
 
 
 class PkgManager(abc.ABC):

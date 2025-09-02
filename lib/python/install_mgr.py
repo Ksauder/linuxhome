@@ -1,14 +1,12 @@
 from pathlib import Path
 import os
-from utils import get_distro, run_cmd
-from pkg_mgrs import manager_for
-
-REPO_ROOT = Path(os.getenv("REPO_ROOT"))
-INSTALLERS_DIR = Path(os.getenv("INSTALLERS_DIR"))
+from .utils import get_distro, run_cmd
+from .pkg_mgrs import manager_for
 
 
 class Installer:
-    def __init__(self, pkgs, dry_run=False):
+    def __init__(self, pkgs, dry_run=False, installers_dir="./installers"):
+        self.installers_dir = Path(installers_dir)
         self.pkgs_to_install = pkgs
         self.dry_run = dry_run
         self.distro = get_distro()
@@ -54,12 +52,14 @@ class Installer:
         Takes a package name and checks to see if there is a script for the distro
         """
         pkgscript = pkg + ".sh"
-        if not INSTALLERS_DIR.exists():
-            raise ValueError("INSTALLERS_DIR does not exist")
+        if not self.installers_dir.exists():
+            raise ValueError("self.installers_dir does not exist")
         distro = get_distro()
-        common_installer = INSTALLERS_DIR / "common" / pkgscript
-        distro_installer = INSTALLERS_DIR / distro["name"].lower() / pkgscript
-        version_installer = distro_installer / distro["version_id"].lower() / pkgscript
+        common_installer = self.installers_dir / "common" / pkgscript
+        distro_installer = self.installers_dir / distro["name"].lower() / pkgscript
+        version_installer = (
+            distro_installer.parent / distro["version_id"].lower() / pkgscript
+        )
         self.log([common_installer, distro_installer, version_installer])
         installer = None
         if version_installer.exists():

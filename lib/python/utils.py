@@ -34,7 +34,10 @@ def run_cmd(cmd: List[str] | str, env=None, dry_run=False) -> CompletedProcess |
     if not isinstance(cmd, list):
         cmd = [cmd]
     if dry_run:
-        print("$", " ".join(shlex.quote(c) for c in cmd))
+        try:
+            print("$", " ".join(shlex.quote(c) for c in cmd))
+        except:
+            print(cmd)
         return None
     return run(cmd, check=True, env=env)
 
