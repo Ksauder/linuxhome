@@ -22,6 +22,7 @@
 	attributesfile = ~/.gitattributes
 	excludesfile = ~/.gitignore
 	pager = delta 2> /dev/null || less
+	editor = nvim
 [apply]
 	whitespace = nowarn
 [format]
