@@ -23,6 +23,12 @@ set history=1000
 " filetype settings
 autocmd FileType sh setlocal tabstop=4 shiftwidth=4
 
+" For local replace
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
 " Maps the F5 key to trim all white space
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " maps ctrl-r when in visual mode to replace highlighted text
