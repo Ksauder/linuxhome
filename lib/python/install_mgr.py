@@ -1,3 +1,4 @@
+from typing import Optional
 from pathlib import Path
 import os
 from .utils import get_distro, run_cmd
@@ -46,7 +47,7 @@ class Installer:
     def install_pkg(self, pkg):
         self.pkgmgr.install([pkg], dry_run=self.dry_run)
 
-    def get_script(self, pkg) -> Path | None:
+    def get_script(self, pkg) -> Optional[Path]:
         """
         Currently only supports looking for '.sh' scripts, could support any though
         Takes a package name and checks to see if there is a script for the distro

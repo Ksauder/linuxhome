@@ -1,11 +1,11 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 from pathlib import Path
 from subprocess import CompletedProcess, run
 import os
 import shlex
 
 
-def read_dotenv(path: str | Path) -> Dict:
+def read_dotenv(path: Union[Path, str]) -> Dict:
     """Supports basic dotenv VAR=VAL files"""
     if not isinstance(path, Path):
         path = Path(path)
@@ -30,7 +30,7 @@ def get_distro() -> Dict:
     }
 
 
-def run_cmd(cmd: List[str] | str, env=None, dry_run=False) -> CompletedProcess | None:
+def run_cmd(cmd: Union[List[str], str], env=None, dry_run=False) -> Union[CompletedProcess, None]:
     if not isinstance(cmd, list):
         cmd = [cmd]
     if dry_run:

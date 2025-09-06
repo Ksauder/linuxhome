@@ -1,4 +1,4 @@
-from typing import List, Type
+from typing import List, Type, Optional
 import abc
 from .utils import sudo_prefix, have_cmd, run_cmd
 
@@ -69,7 +69,7 @@ MANAGERS = {
 
 
 def manager_for(
-    distro: str, likes: List[str] | None = None, override: str | None = None
+    distro: str, likes: Optional[List[str]] = None, override: Optional[str] = None
 ) -> Type[PkgManager]:
     if override:
         return MANAGERS[override]
