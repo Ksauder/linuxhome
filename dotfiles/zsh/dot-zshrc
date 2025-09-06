@@ -75,6 +75,10 @@ plugins=(
     extract
 )
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -110,8 +114,16 @@ if [ -f ~/.common_aliases ]; then
     . ~/.common_aliases
 fi
 
+if [ -f ~/.common_aliases.local ]; then
+    . ~/.common_aliases.local
+fi
+
 if [ -f ~/.zsh_aliases ]; then
     . ~/.zsh_aliases
+fi
+
+if [ -f ~/.zsh_aliases.local ]; then
+    . ~/.zsh_aliases.local
 fi
 
 if [ -f ~/.zsh_aliases.local ]; then
@@ -125,7 +137,7 @@ fi
 
 # vim: set syn=sh:
 # Created by `pipx`
-export PATH="$PATH:/home/kyle/.local/bin"
+export PATH="$PATH:${HOME}/.local/bin"
 
 # pyenv / pyenv-virtualenv
 # if command -v ~/.pyenv/bin/pyenv 2>&1 >/dev/null; then

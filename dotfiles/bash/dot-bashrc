@@ -126,7 +126,7 @@ fi
 
 # vim: set syn=sh:
 # Created by `pipx`
-export PATH="$PATH:/home/kyle/.local/bin"
+export PATH="$PATH:${HOME}/.local/bin"
 
 # pyenv / pyenv-virtualenv
 # if command -v ~/.pyenv/bin/pyenv 2>&1 >/dev/null; then
@@ -145,3 +145,4 @@ fi
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
+. "$HOME/.cargo/env"
