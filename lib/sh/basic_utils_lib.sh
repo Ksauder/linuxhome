@@ -28,6 +28,7 @@ if [ -z "$_LIB_BASIC_UTILS" ]; then
     run_install_script() {
         detect_os
         APP_NAME=${1}
+        REPO_ROOT=${2}
         INSTALL_DIR="${REPO_ROOT}/installers/install/${OS}"
 
         if [ -d "${INSTALL_DIR}" ]; then

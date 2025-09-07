@@ -4,9 +4,8 @@ import sys
 from pathlib import Path
 import argparse
 
-from lib.python.install_mgr import Installer
-from lib.python.utils import have_cmd, run_cmd
-from lib.python.bootstrap import bootstrap, unbootstrap
+from lib.pyhomerepo.src.install_mgr import Installer
+from lib.pyhomerepo.src.bootstrap import bootstrap, unbootstrap
 
 
 default_stow_packages = ["git", "kitty", "nvim", "tmux", "vim", "zsh"]
