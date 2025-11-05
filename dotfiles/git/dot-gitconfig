@@ -11,12 +11,15 @@
     wdiff = diff --word-diff
     rdiff = diff --submodule=diff
     discard = !git checkout -- . && git submodule foreach git checkout -- .
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 [fetch]
     writeCommitGraph = true
 [color]
 	diff = auto
 	status = auto
 	branch = auto
+    interactive = auto
 [core]
 	autocrlf = input
 	attributesfile = ~/.gitattributes
