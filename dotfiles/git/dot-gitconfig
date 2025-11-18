@@ -13,6 +13,7 @@
     discard = !git checkout -- . && git submodule foreach git checkout -- .
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    shortsha = rev-parse --short HEAD
 [fetch]
     writeCommitGraph = true
 [color]
