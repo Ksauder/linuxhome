@@ -35,4 +35,9 @@ fi
 if [ -f "${HOME}/.profile.local" ]; then
     . "${HOME}/.profile.local"
 fi
+
+if [ -z "${XDG_CONFIG_HOME}" ]; then
+    export XDG_CONFIG_HOME="${HOME}/.config"
+fi
+
 . "$HOME/.cargo/env"
