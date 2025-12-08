@@ -12,6 +12,20 @@ alias tmux-start="tmux new -As0"
 alias ts="tmux-start"
 alias vim="nvim"
 
+wtfis() {
+    if [ -z "${1}" ]; then
+        echo "Usage: wtfis <query>"
+    else
+        QUERY=$1
+    fi
+    echo -n "whatis: "
+    whatis "${QUERY}"
+    echo -n "whereis: "
+    whereis "${QUERY}"
+    echo -n "which: "
+    which "${QUERY}"
+}
+
 count-lines() {
     if [ -z "${1}" ]; then
         echo "Usage: count-lines <file-extension>"
