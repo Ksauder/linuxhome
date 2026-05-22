@@ -1,0 +1,13 @@
+ 3. Press the `:`{normal} character. At the bottom of the screen
+
+        `:'<,'>`{vim}
+
+    will appear.
+
+ 4. Type
+
+        `w TEST`{vim}
+
+    where TEST is a filename that does not exist yet. Verify that you see
+
+        `:'<,'>w TEST`{vim}
